@@ -10,6 +10,10 @@ yes = types.KeyboardButton('Да')
 no = types.KeyboardButton('Нет')
 yesno.add(yes,no)
 
+pol = types.ReplyKeyboardMarkup(one_time_keyboard=True,resize_keyboard=True)
+boy = types.KeyboardButton('Парень')
+girl = types.KeyboardButton('Девушка')
+pol.add(girl,boy)
 
 regphone = types.ReplyKeyboardMarkup(resize_keyboard=True)
 regphonebtn = types.KeyboardButton('Зарегестрироваться',request_contact= True)
